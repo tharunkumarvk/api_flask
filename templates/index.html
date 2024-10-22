@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Mental Health Resources</title>
+</head>
+<body>
+    <header>
+        <h1>Mental Health Resources</h1>
+    </header>
+    <main>
+        <h2>Explore Resources</h2>
+        <button onclick="fetchResources()">View Resources</button>
+        <button onclick="checkAvailability()">Check Counselor Availability</button>
+        <button onclick="getCrisisHotlines()">Get Crisis Hotlines</button>
+    </main>
+    <div id="output"></div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

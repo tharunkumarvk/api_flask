@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import os  # Required for deployment
 
 app = Flask(__name__)
 
+# Sample data and user management
 users = {}
 mood_data = {}
 resources = [
@@ -15,6 +16,10 @@ crisis_hotlines = [
     {"country": "USA", "number": "1-800-273-TALK"}
 ]
 reminders = {}
+
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 @app.route('/resources', methods=['GET'])
 def get_resources():
@@ -46,7 +51,7 @@ def book_counselor_session():
     session_type = data.get('session_type', 'chat')
     if email in users:
         return jsonify({
-            "message": f"Counselor session booked successfully!",
+            "message": "Counselor session booked successfully!",
             "session_type": session_type
         }), 201
     return jsonify({"message": "User not found!"}), 404
