@@ -1,11 +1,11 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session
 import os  # Required for deployment
 
 app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Required for session management
 
 # Sample data and user management
 users = {}
-mood_data = {}
 resources = [
     {"id": 1, "title": "Meditation Basics", "content": "Learn how to meditate effectively."},
     {"id": 2, "title": "Coping Strategies", "content": "Tips for dealing with anxiety."}
@@ -20,6 +20,41 @@ reminders = {}
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if email in users:
+        return jsonify({"message": "User already exists!"}), 400
+
+    users[email] = password  # Save user credentials (passwords should be hashed in production)
+    return jsonify({"message": "Registration successful!"}), 201
+
+@app.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if email in users and users[email] == password:
+        session['user'] = email  # Store user in session
+        return jsonify({"message": "Login successful!"}), 200
+
+    return jsonify({"message": "Invalid credentials!"}), 401
+
+@app.route('/profile', methods=['GET'])
+def profile():
+    if 'user' in session:
+        return jsonify({"email": session['user']}), 200
+    return jsonify({"message": "User not logged in!"}), 401
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.pop('user', None)  # Remove user from session
+    return jsonify({"message": "Logout successful!"}), 200
 
 @app.route('/resources', methods=['GET'])
 def get_resources():

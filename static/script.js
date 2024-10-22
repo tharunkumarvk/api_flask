@@ -37,3 +37,63 @@ function getCrisisHotlines() {
         })
         .catch(error => console.error('Error fetching hotlines:', error));
 }
+
+function register() {
+    const email = document.getElementById('register-email').value;
+    const password = document.getElementById('register-password').value;
+
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('output').innerHTML = `<h3>${data.message}</h3>`;
+    })
+    .catch(error => console.error('Error registering:', error));
+}
+
+function login() {
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('output').innerHTML = `<h3>${data.message}</h3>`;
+    })
+    .catch(error => console.error('Error logging in:', error));
+}
+
+function viewProfile() {
+    fetch('/profile')
+        .then(response => response.json())
+        .then(data => {
+            if (data.email) {
+                document.getElementById('output').innerHTML = `<h3>Email: ${data.email}</h3>`;
+            } else {
+                document.getElementById('output').innerHTML = `<h3>${data.message}</h3>`;
+            }
+        })
+        .catch(error => console.error('Error fetching profile:', error));
+}
+
+function logout() {
+    fetch('/logout', {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('output').innerHTML = `<h3>${data.message}</h3>`;
+    })
+    .catch(error => console.error('Error logging out:', error));
+}

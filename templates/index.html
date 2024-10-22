@@ -15,6 +15,17 @@
         <button onclick="fetchResources()">View Resources</button>
         <button onclick="checkAvailability()">Check Counselor Availability</button>
         <button onclick="getCrisisHotlines()">Get Crisis Hotlines</button>
+        <hr>
+        <h2>User Registration</h2>
+        <input type="email" id="register-email" placeholder="Email" required>
+        <input type="password" id="register-password" placeholder="Password" required>
+        <button onclick="register()">Register</button>
+        <h2>User Login</h2>
+        <input type="email" id="login-email" placeholder="Email" required>
+        <input type="password" id="login-password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <button onclick="viewProfile()">View Profile</button>
+        <button onclick="logout()">Logout</button>
     </main>
     <div id="output"></div>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
